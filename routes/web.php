@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CaptchaController;
@@ -8,6 +7,8 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\smallProvinceController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,26 +23,29 @@ use App\Http\Controllers\smallProvinceController;
 
 
 Route::prefix('user')->group(function () {
-
-    Route::get('index/{user}', [UserController::class, 'index'])->name('user.index');
-    
     Route::get('login', [UserController::class, 'show'])->name('user.login.show');
     Route::post('login', [UserController::class, 'login'])->name('user.login');
-
     Route::get('/create', [UserController::class, 'create'])->name('user.create');
     Route::post('/store', [UserController::class, 'store'])->name('user.store');
-
-    Route::get('/edit/{user}', [UserController::class, 'edit'])->name('user.edit');
-    Route::put('/update/{user}', [UserController::class, 'update'])->name('user.update');
-
     Route::get('/verification/show/{user}', [UserController::class, 'showVerification'])->name('user.verification.show');
     Route::post('/verification/store/{user}', [UserController::class, 'verification'])->name('user.verification.store');
-
+    Route::get('/email/verification/show', [UserController::class, 'showEmailVerification'])->name('user.email.verification.show');
+    Route::post('/email/verification', [UserController::class, 'sendCodeVerification'])->name('user.email.verification');
+    Route::get('/email/verification/code/show/{user}', [UserController::class, 'showCodeVerification'])->name('user.email.code.show');
     Route::get('/giveSmallProvice/{id}', [UserController::class, 'giveSmallProvice'])->name('user.giveSmallProvice');
+});
+//->middleware('validUser')
+Route::prefix('user')->group(function () {
+
+
+    Route::get('index/{user}', [UserController::class, 'index'])->name('user.index');
+    Route::get('/edit/{user}', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/update/{user}', [UserController::class, 'update'])->name('user.update');
     Route::get('/logout', [UserController::class, 'logout'])->name('user.logout');
+
 });
 
-
+//->middleware('validAdmin')
 Route::prefix('admin')->group(function () {
 
   
@@ -50,9 +54,11 @@ Route::prefix('admin')->group(function () {
         Route::get('/create', [AdminController::class, 'create'])->name('admin.create');
         Route::post('/store', [AdminController::class, 'store'])->name('admin.store');
         Route::get('/edit/{user}', [AdminController::class, 'edit'])->name('admin.edit');
-        Route::put('/update', [AdminController::class, 'update'])->name('admin.update');
+        Route::put('/update/{user}', [AdminController::class, 'update'])->name('admin.update');
         Route::delete('/delete/{user}', [AdminController::class, 'destroy'])->name('admin.delete');
         Route::get('/logout', [AdminController::class, 'logout'])->name('admin.logout');
+        Route::get('/change/role/{id}', [AdminController::class, 'changeRole'])->name('admin.change.role');
+
     
 
     Route::prefix('province')->group(function () {
@@ -79,12 +85,16 @@ Route::prefix('admin')->group(function () {
 
     //user
     Route::prefix('user')->group(function () {
-        Route::get('/', [UserController::class, 'all'])->name('admin.user.index');
+        Route::get('/index', [UserController::class, 'all'])->name('admin.user.index');
         Route::get('/create', [UserController::class, 'create'])->name('admin.user.create');
         Route::post('/store', [UserController::class, 'store'])->name('admin.user.store');
-        Route::get('/edit/{user}', [UserController::class, 'edit'])->name('admin.user.edit');
-        Route::put('/update/{user}', [UserController::class, 'update'])->name('admin.user.update');
+        Route::get('/edit/{user}', [AdminController::class, 'editUser'])->name('admin.user.edit');
+        Route::put('/update/{user}', [AdminController::class, 'updateUser'])->name('admin.user.update');
+        Route::get('/edit/password/{user}', [AdminController::class, 'editPassword'])->name('admin.user.password.edit');
+        Route::put('/update/password/{user}', [AdminController::class, 'updatePassword'])->name('admin.user.password.update');
         Route::delete('/delete/{user}', [UserController::class, 'destroy'])->name('admin.user.destroy');
+        Route::post('/search', [UserController::class, 'search'])->name('admin.user.search');
+
 
     });
 
@@ -114,3 +124,7 @@ Route::prefix('admin')->group(function () {
     });
 });
 Route::post('/captcha/load',[CaptchaController::class,'load'])->name('captcha.load');
+
+// Auth::routes();
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

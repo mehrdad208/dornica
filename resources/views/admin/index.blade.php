@@ -3,5 +3,4 @@
 
 
 
-
 @extends('admin.layouts.footer')

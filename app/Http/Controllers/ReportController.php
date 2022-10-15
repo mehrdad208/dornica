@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Session;
+
 
 
 
@@ -19,6 +21,12 @@ class ReportController extends Controller
      */
     public function index()
     {
+        $user=User::where('id',Session::get('admin_id'))->first();
+        
+        if($user->user_type==1){
+            
+            return redirect()->back();
+        }
         $provinces= ProvinceCity::where('parent', 0)->get();
         return view('admin.report.user.index',compact('provinces'));
     }

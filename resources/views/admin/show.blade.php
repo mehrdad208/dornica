@@ -59,9 +59,13 @@
                                 <td>{{ $admin->mobile }}</td>
                                 <td>{{ $admin->first_name }}</td>
                                 <td>{{ $admin->last_name }}</td>
-                                <td>سوپر ادمین	</td>
+                                <td>{{($admin->user_type==1)?"ادمین":"مدیر"}}</td>
                                 <td class="width-22-rem text-left">
-                                    <a href="" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> نقش</a>
+
+
+                                    <a href="{{route('admin.change.role',$admin->id)}}" class="btn btn-{{($admin->user_type==1)?'info':'warning'}} btn-sm"><i class="fa fa-edit"></i>{{($admin->user_type==1)?"مدیر":"ادمین"}}</a>
+
+
                                     <a href="{{route('admin.edit',$admin->id)}}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
                                     <form class="d-inline" action="{{route('admin.delete',$admin->id)}}" method="post">
                                         @csrf

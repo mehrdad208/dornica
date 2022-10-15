@@ -34,10 +34,41 @@
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <a href="{{route('admin.create')}}" class="btn btn-info btn-sm">ایجاد کاربر جدید</a>
                     <a href="{{ route('admin.index') }}" class="btn btn-info btn-sm">بازگشت</a>
+                    </section>
 
+
+                    <form class="d-inline" action="{{route('admin.user.search')}}" method="post">
+                        @csrf
+                    <section class="row">
+                    <section>
                     <div class="max-width-16-rem">
-                        <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
+                    <label for="">ایمیل</label>
+                    <input type="text" name="email">
                     </div>
+                    </section>
+
+                    <section>
+                    <div class="max-width-16-rem mr-2">
+                    <select name="province" id="">
+                        @foreach($provinces as $province)
+                        <option value="{{$province->id}}">{{$province->title}}</option>
+                        @endforeach
+                    </select>
+                    </div>
+                    </section> 
+
+                    <section>
+                    <div class="max-width-16-rem mr-2">
+                    <label for="">موبایل</label>
+                    <input type="text" name="mobile">
+                    </div>
+                    </section>
+                    <button class="btn btn-danger btn-sm mr-2 delete" type="submit"><i class="fa fa-trash-alt"></i> جستجو</button>
+                    </form>
+               
+               
+                   
+
                 </section>
     
                 <section class="table-responsive">
@@ -69,7 +100,8 @@
                               
                              
                                 <td class="width-22-rem text-left">
-                                    <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
+                                    <a href="{{route('admin.user.edit',$user->id)}}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
+                                    <a href="{{route('admin.user.password.edit',$user->id)}}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i>تغییر رمز</a>
                                     <form class="d-inline" action="{{route('admin.user.destroy',$user->id)}}" method="post">
                                         @csrf
                                         {{ method_field('delete') }}

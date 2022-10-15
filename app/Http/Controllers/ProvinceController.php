@@ -122,19 +122,12 @@ class ProvinceController extends Controller
                         $keys[]=$value[0];
                         $results[]=$value[1];
 
-                    }     
-                    return  view('admin.province.barCharts',compact('keys','results'));
+                    }
+                    
+                    return  view('admin.province.barCharts',compact('keys','results','province'));
                    
                 }
               
-        
-        // $count= DB::table('users')
-        //      ->select(DB::raw('count(*) as user_count, small_province'))
-
-        //      ->where('small_province',$id)
-        //      ->groupBy('small_province')
-        //      ->get();
-        // dd($count);
-
+       
     
 }

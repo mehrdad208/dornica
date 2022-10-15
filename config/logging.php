@@ -17,7 +17,7 @@ return [
     |
     */
 
-    'default' => env('LOG_CHANNEL', 'stack'),
+    'default' => env('LOG_CHANNEL', 'monolog'),
 
     /*
     |--------------------------------------------------------------------------
@@ -50,6 +50,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
+            'name' => 'channel-name',
             'channels' => ['single'],
             'ignore_exceptions' => false,
         ],

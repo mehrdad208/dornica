@@ -28,8 +28,9 @@ class UserController extends Controller
         return view('home.post.index', compact('user','posts'));
     }
     public function all(){
+        $provinces=ProvinceCity::where('parent',0)->get();
         $users=User::where('user_type',0)->get();
-        return view('admin.user.show',compact('users'));
+        return view('admin.user.show',compact('users','provinces'));
     }
   
 
@@ -38,6 +39,13 @@ class UserController extends Controller
         $provinces = ProvinceCity::where('parent', 0)->get();
         return view('user.register', compact('provinces'));
     }
+
+ public function search(Request $request){
+    $provinces=ProvinceCity::where('parent',0)->get();
+    $users=User::where('province',$request->province)->where('email','like','%'.$request->email.'%')->where('province','like','%'.$request->province.'%')->get();
+    return view('admin.user.show',compact('users','provinces'));
+}
+
    
 
     /**
@@ -192,15 +200,40 @@ class UserController extends Controller
 
     public function verification(Request $request,User $user)
     {
+
         if ($user->verification_code == $request->verification_code) {
             $user->update([
-                'email_verified_at'=>2554557884555 
+                'email_verified_at'=>time() 
             ]);
             return redirect()->route('user.index', $user->id);
         } else {
-            return redirect()->route('user.verification.show');
+            return redirect()->back();
         }
     }
+    public function showEmailVerification(){
+        return view('user.emailVerification');
+    }
+
+    public function sendCodeVerification(Request $request){
+        
+        $user=User::where('email',$request->email)->first();
+       
+        if($user){
+           
+            $notification = resolve(Notification::class);
+            SendEmail::dispatch($user, new UserCreated($user));
+            return redirect()->route('user.email.code.show',$user->id);
+
+        }else{
+            return redirect()->route('user.login.show');
+        }
+    }
+
+    public function showCodeVerification(User $user){
+        return view('user.codeVerification',compact('user'));
+
+    }
+   
 
 
     public function uploadImages($file, $path)
@@ -217,13 +250,17 @@ class UserController extends Controller
     public function login(Request $request)
     {
         $user = User::where('user_name', $request->user_name)->first();
+        if($user->email_verified_at==null){
+            return redirect()->back();
+        }
         if ($user) {
             if (password_verify($request->password, $user->password)) {
                 if($user->user_type==0){
+                    Session::put('user_id',$user->id);
                     return redirect()->route('user.index', $user->id);
                 }else{
-                    Session::put('user')==$user->first_name;
-
+                    Session::put('admin_id',$user->id);
+                    Session::put('first_name',$user->first_name);
                     return redirect()->route('admin.index');
                 }
             } else {
@@ -253,6 +290,9 @@ class UserController extends Controller
 
     public function logout()
     {
+        Session::forget('user_id');
+        Session::forget('first_name');
+
         return redirect()->route('user.login.show');
     }
 }

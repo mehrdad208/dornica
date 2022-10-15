@@ -12,12 +12,13 @@ session_start();
   <title>پنل مدیریت</title>
 </head>
 
+
 <body>
   <header role="banner">
     <h1>پنل مدیریت</h1>
     <ul class="utilities">
       <br>
-      <li class="logout warn"><a href=""><?php echo Session::get('user');?>خوش آمدید</a></li>
+      <li class="logout warn"><a href="">{{Session::get('first_name')}}خوش آمدید</a></li>
 
       <li class="logout warn"><a href="{{route('admin.logout')}}">خروج از برنامه</a></li>
     </ul>
@@ -30,8 +31,8 @@ session_start();
       <li class="price"><a href="{{route('admin.user.index')}}"> مشاهده کاربران </a></li>
       <li class="write"><a href="{{route('admin.province.index')}}">مدیریت استان هاوشهرستان ها</a></li>
       <li class="write"><a href="{{route('admin.post.index')}}">مدیریت پست ها</a></li>
+   
       <li class="edit"><a href="{{route('admin.report.index')}}">گزارش گیری از کاربران</a></li>
-
 
     </ul>
   </nav>

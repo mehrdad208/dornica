@@ -44,7 +44,7 @@
  #loginRegister ul li {
     display: inline;
     margin-right: 20px;
-    color: rgba(250, 250, 250, 0.5);
+    color: white!important;
     font-size: 25px;
  }
  #loginRegister ul li:hover{

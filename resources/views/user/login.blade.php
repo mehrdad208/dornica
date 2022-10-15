@@ -5,15 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{asset('admin-assets/css/login.css')}}">
-    <title>Document</title>
+    <title>login</title>
 </head>
 <body>
     <div id="background">
         <div id="loginForm">
            <div id="loginRegister">
               <ul>
-                 <li class="active"><a>Login</a></li>
-                 <li><a href="{{route('user.create')}}">Register</a></li>
+                 <li class="active "><a>Login</a></li>
+                 <li class="active"><a href="{{route('user.create')}}">Register</a></li>
+
               </ul>
            </div>
            <form action="{{route('user.login')}}" method="Post">
@@ -27,7 +28,7 @@
            </form>
            <hr/>
            <p>
-              <a id="forgotPassword" href="#">Forgot Password?</a></p>
+              <a id="forgotPassword" href="{{route('user.email.verification.show')}}">Email Verification</a></p>
         </div>
      </div>
 </body>

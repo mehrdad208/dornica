@@ -10,6 +10,12 @@ use App\Models\ProvinceCity;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+use App\Http\Requests\Admin\updateUserRequest;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Session;
+
+
 
 
 
@@ -31,11 +37,42 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+     public function editUser(User $user){
+        return view('admin.user.edit', compact('user'));
+     }
+     public function updateUser(updateUserRequest $request,User $user){
+        $user->update($request->all());
+        Log::alert("admin=".Session::get('admin_id'). "update user");
+        return redirect()->route('admin.user.index');
+     }
+
+     public function editPassword(User $user){
+        return view('admin.user.changePassword', compact('user'));
+
+     }
+
+     public function updatePassword(Request $request,User $user){
+        $request->validate([
+            'password' => ['required', Password::min(8)->letters()->mixedCase()->numbers()->symbols()->uncompromised(), 'confirmed'],
+        ]);
+        Log::alert("admin=".Session::get('admin_id'). "update password");
+
+        return redirect()->route('admin.user.index');
+
+     }
+
+
 
 
     public function show()
     {
-        $admins = User::where('user_type', 1)->get();
+        $user=User::where('id',Session::get('admin_id'))->first();
+        
+        if($user->user_type==1){
+            
+            return redirect()->back();
+        }
+        $admins = User::where('user_type','<>',0)->get();
 
         return view('admin.show', compact('admins'));
     }
@@ -59,6 +96,8 @@ class AdminController extends Controller
             $inputs['user_type'] = 1;
 
             $user = User::create($inputs);
+            Log::alert("admin=".Session::get('admin_id'). "store new admin");
+
             return redirect()->route('admin.show');
         } else {
             return redirect()->route('admin.create');
@@ -107,7 +146,10 @@ class AdminController extends Controller
             $inputs = $request->all();
             $inputs['verification_code'] = rand(100000, 999999);
             $inputs['password'] = password_hash($request->password, PASSWORD_DEFAULT);
-            $user = User::where('id', $id)->get()->update($inputs);
+            $user->update($inputs);
+
+            Log::alert("admin=".Session::get('admin_id'). "update admin");
+
             return redirect()->route('admin.show');
         }
     }
@@ -117,8 +159,23 @@ class AdminController extends Controller
 
     public function destroy(User $user){
         $user->delete();
+        Log::alert("admin=".Session::get('admin_id'). "delete admin");
+
         return redirect()->route('admin.show');
 
+    }
+    public function changeRole($id){
+        $user=User::where('id',$id)->first();
+        if($user->user_type==1){
+            $user->update([
+                'user_type'=> 2
+            ]);
+        }else{
+            $user->update([
+                'user_type'=> 1
+            ]);
+        }
+        return redirect()->route('admin.show');
     }
 
     public function logout()
