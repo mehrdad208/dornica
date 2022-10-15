@@ -1,0 +1,134 @@
+*{
+    box-sizing: border-box;
+ }
+ #background {
+    min-width: 600px;
+    height: 100vh;
+    min-height: 800px;
+    position: relative;
+    background: #c5c7c6;
+    font-family: 'Montserrat', sans-serif;
+    /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(45deg, #c5c7c6, #fff);
+    /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(45deg, #c5c7c6, #fff);
+    /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(45deg, #c5c7c6, #fff);
+    /* For Firefox 3.6 to 15 */
+    background: linear-gradient(45deg, #c5c7c6, #fff);
+    /* Standard syntax */
+ }
+ 
+ #loginForm {
+    width: 525px;
+    height: 680px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #0B1327;
+    background: -webkit-linear-gradient(0deg, #0B1327, #2E3A68);
+    background: -o-linear-gradient(0deg, #0B1327, #2E3A68);
+    background: -moz-linear-gradient(0deg, #0B1327, #2E3A68);
+    background: linear-gradient(0deg, #0B1327, #2E3A68);
+    /* offset-x | offset-y | blur-radius | spread-radius | color */
+    box-shadow: 0px 5px 20px 1px rgba(0, 0, 0, 0.9);
+ }
+ 
+ #loginRegister ul {
+    list-Style: none;
+    width: 80%;
+    margin: 75px auto;
+ }
+ 
+ #loginRegister ul li {
+    display: inline;
+    margin-right: 20px;
+    color: rgba(250, 250, 250, 0.5);
+    font-size: 25px;
+ }
+ #loginRegister ul li:hover{
+    color: #fff;
+ }
+ #loginRegister ul li.active {
+    padding-bottom: 5px;
+    border-bottom: 2px solid #1A68EF;
+    color: #fff;
+ }
+ 
+ #loginForm form {
+    width: 75%;
+    margin: 0 auto;
+ }
+ 
+ #loginForm form label {
+    color: rgba(250, 250, 250, 0.5);
+    padding-left: 20px;
+    font-size: 15px;
+ }
+ 
+ #loginForm form input {
+    display: block;
+    width: 100%;
+    margin: 15px 0 25px 0;
+    height: 40px;
+    border-radius: 25px;
+    border: none;
+    background: rgba(250, 250, 250, .1);
+    color: #fff;
+    padding-left: 20px;
+    font-size: 15px;
+ }
+ #loginForm form input:hover {
+       border: 2px solid rgba(250, 250, 250, .2);
+ }
+ #loginForm form input:focus {
+    border: 2px solid rgba(250, 250, 250, .2);
+    outline: none;
+    background: none;
+ }
+ #loginForm form button#signInButton{
+    height: 40px;
+    display: block;
+    width: 100%;
+    border-radius: 25px;
+    border: none;
+    background: #1B66EA;
+    color: #fff;
+    font-size: 15px;
+ }
+ #loginForm form input#keepMeInCheck,
+ #loginForm form label#keepMeInCheckLabel {
+    display: inline;
+ }
+ 
+ #loginForm form input#keepMeInCheck {
+    width: 20px;
+    height: 15px;
+    margin-left: 20px;
+    margin-bottom: 40px;
+ }
+ 
+ #loginForm form label#keepMeInCheckLabel {
+    padding: 0;
+ }
+ 
+ #loginForm hr {
+    width: 75%;
+    margin: 85px auto 0 auto;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid rgba(250, 250, 250, .2);
+ }
+ #loginForm p {
+    text-align: center;
+    padding-top: 25px;
+ }
+ #loginForm #forgotPassword {
+    text-decoration: none;
+    color: rgba(250, 250, 250, .2);
+    display: block;
+ }
+ #loginForm #forgotPassword:hover {
+    color: #fff;
+ }
