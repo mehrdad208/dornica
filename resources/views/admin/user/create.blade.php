@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="{{ asset('admin-assets/css/style.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.css') }}"> 
-       <title>Register</title>
+       <title>ثبت نام کاربر</title>
 </head>
 <body>
     
@@ -29,20 +29,24 @@
                       ثبت نام 
                     </h5>
                 </section>
+                @if(session('success'))
+                <div class="alert alert-success flex-right" role="alert">
+                 {{session('success')}}
+                </div>
+                @endif
+                @if(session('error'))
+                <div class="alert alert-danger flex-right" role="alert">
+                 {{session('error')}}
+                </div>
+                @endif
     
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                    <a href="{{route('admin.users.showAllUsers')}}" class="btn btn-info btn-sm">بازگشت</a>
+                    <a href="{{route('admin.user.index')}}" class="btn btn-info btn-sm">بازگشت</a>
                 </section>
-                @error('wrong_national_code')
-                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
-                    <strong>
-                        {{ $message }}
-                    </strong>
-                </span>
-            @enderror
+             
     
                 <section>
-                    <form action="{{route('admin.users.storeAdmin')}}" method="POST" enctype="multipart/form-data" id="form">
+                    <form action="{{route('admin.user.store')}}" method="POST" enctype="multipart/form-data" id="form">
                         @csrf
                         <section class="row">
     
@@ -109,7 +113,7 @@
                                     <input type="text" name="birthday_date" id="birthday_date" class="form-control form-control-sm d-none">
                                     <input type="text" id="birthday_date_view" class="form-control form-control-sm">
                                 </div>
-                                @error('published_at')
+                                @error('birthday_date')
                                 <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
                                     <strong>
                                         {{ $message }}
@@ -121,10 +125,10 @@
                             <section class="col-12 col-md-3">
                                 <div class="form-group">
                                     <label for="">جنسیت</label>
-                                    <select name="sexuality" id="" class="form-control form-control-sm">
-                                        <option value="0">مرد</option>
+                                    <select name="sexuality" class="form-control form-control-sm">
+                                        <option value="0" id="sexuality1">مرد</option>
                                       
-                                        <option value="1" >زن</option>
+                                        <option value="1" id="sexuality2" >زن</option>
     
                                     </select>
                                 </div>
@@ -137,7 +141,7 @@
                             @enderror
                             </section>
 
-                            <section class="col-12 col-md-3">
+                            <section class="col-12 col-md-3" id="soldiering_status">
                                 <div class="form-group">
                                     <label for="">وضعیت نظام وظیفه</label>
                                     <select name="soldiering_status" id="" class="form-control form-control-sm">
@@ -147,7 +151,7 @@
     
                                     </select>
                                 </div>
-                                @error('sexuality')
+                                @error('soldiering_status')
                                 <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
                                     <strong>
                                         {{ $message }}
@@ -354,6 +358,18 @@
                        
                     });
                 }
+
+                $(document).ready(function(){
+                $("#sexuality1").click(function(){
+               $("#soldiering_status").show();
+                 });
+                });
+
+                $(document).ready(function(){
+                $("#sexuality2").click(function(){
+               $("#soldiering_status").hide();
+                 });
+                });
     </script>
 
     

@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('mobile')->unique();
             $table->timestamp('birthday_date')->nullable();
             $table->tinyInteger('sexuality')->comment('0 => male, 1 => female');
-            $table->tinyInteger('soldiering_status')->comment('0 => no, 1 => yes');
+            $table->tinyInteger('soldiering_status')->default(0)->comment('0 => no, 1 => yes');
             $table->string('email')->unique();
             $table->tinyInteger('status')->default(0)->comment('0 => active, 1 => inactive');
             $table->tinyInteger('user_type')->default(0)->comment('0 => user, 1 => admin ,manager =>2');

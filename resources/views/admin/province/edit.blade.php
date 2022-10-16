@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
      <link rel="stylesheet" href="{{ asset('admin-assets/css/bootstrap/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin-assets/fontawesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin-assets/css/animate.min.css') }}">
@@ -12,7 +11,7 @@
     <link rel="stylesheet" href="{{ asset('admin-assets/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin-assets/sweetalert/sweetalert2.css') }}">
     <link rel="stylesheet" href="{{ asset('admin-assets/css/style.css') }}">
-
+    <title>  ویرایش  استان</title>
 </head>
 <body>
     
@@ -27,6 +26,16 @@
                  ویرایش  استان 
                 </h5>
             </section>
+            @if(session('success'))
+                <div class="alert alert-success flex-right" role="alert">
+                 {{session('success')}}
+                </div>
+                @endif
+                @if(session('error'))
+                <div class="alert alert-danger flex-right" role="alert">
+                 {{session('error')}}
+                </div>
+                @endif
 
             <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                 <a href="{{route('admin.province.index')}}" class="btn btn-info btn-sm">بازگشت</a>

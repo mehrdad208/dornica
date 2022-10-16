@@ -32,6 +32,16 @@
                      تغییر مشخصات کاربر 
                     </h5>
                 </section>
+                @if(session('success'))
+                <div class="alert alert-success flex-right" role="alert">
+                 {{session('success')}}
+                </div>
+                @endif
+                @if(session('error'))
+                <div class="alert alert-danger flex-right" role="alert">
+                 {{session('error')}}
+                </div>
+                @endif
     
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <a href="{{route('user.index',$user->id)}}" class="btn btn-info btn-sm">بازگشت</a>
@@ -120,9 +130,9 @@
                                 <div class="form-group">
                                     <label for="">جنسیت</label>
                                     <select name="sexuality" id="" class="form-control form-control-sm">
-                                        <option value="0" @if($user->sexuality==0)selected @endif>مرد</option>
+                                        <option value="0" id="sexuality1" @if($user->sexuality==0)selected @endif>مرد</option>
                                       
-                                        <option value="1" @if($user->sexuality==1)selected @endif >زن</option>
+                                        <option value="1" id="sexuality2" @if($user->sexuality==1)selected @endif >زن</option>
     
                                     </select>
                                 </div>
@@ -135,17 +145,17 @@
                             @enderror
                             </section>
 
-                            <section class="col-12 col-md-3">
+                            <section class="col-12 col-md-3" id="soldiering_status">
                                 <div class="form-group">
                                     <label for="">وضعیت نظام وظیفه</label>
                                     <select name="soldiering_status" id="" class="form-control form-control-sm">
-                                        <option value="0" @if($user->soldiering_status==0) selected @endif>انجام نشده</option>
+                                        <option value="0"  @if($user->soldiering_status==0) selected @endif>انجام نشده</option>
                                       
-                                        <option value="1" @if($user->soldiering_status==1) selected @endif >انجام شده</option>
+                                        <option value="1" id="sexuality2" @if($user->soldiering_status==1) selected @endif >انجام شده</option>
     
                                     </select>
                                 </div>
-                                @error('sexuality')
+                                @error('soldiering_status')
                                 <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
                                     <strong>
                                         {{ $message }}
@@ -352,6 +362,18 @@
                        
                     });
                 }
+
+                $(document).ready(function(){
+                $("#sexuality1").click(function(){
+               $("#soldiering_status").show();
+                 });
+                });
+
+                $(document).ready(function(){
+                $("#sexuality2").click(function(){
+               $("#soldiering_status").hide();
+                 });
+                });
     </script>
 
     

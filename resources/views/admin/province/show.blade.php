@@ -26,6 +26,16 @@
                    استان ها
                     </h5>
                 </section>
+                @if(session('success'))
+                <div class="alert alert-success flex-right" role="alert">
+                 {{session('success')}}
+                </div>
+                @endif
+                @if(session('error'))
+                <div class="alert alert-danger flex-right" role="alert">
+                 {{session('error')}}
+                </div>
+                @endif
     
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <a href="{{route('admin.province.create')}}" class="btn btn-info btn-sm">ایجاد استان جدید</a>

@@ -42,7 +42,7 @@ class smallProvinceController extends Controller
             'title' => $request->small_province,
             'parent' => $id
         ]);
-        return redirect()->route('admin.province.index');
+        return redirect()->route('admin.province.index')->with('success','small province created ');
     }
 
     /**
@@ -82,7 +82,7 @@ class smallProvinceController extends Controller
        $smallProvince->update([
             'title' => $request->small_province
         ]);
-        return redirect()->route('admin.province.index');
+        return redirect()->route('admin.province.index')->with('success','small province updated');
     }
 
     /**
@@ -94,7 +94,7 @@ class smallProvinceController extends Controller
     public function destroy(ProvinceCity $smallProvince)
     {
         $smallProvince->delete();
-        return redirect()->route('admin.province.index');
+        return redirect()->route('admin.province.index')->with('success','small province destroy');
     }
 
    

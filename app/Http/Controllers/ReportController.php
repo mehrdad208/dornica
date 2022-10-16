@@ -25,7 +25,7 @@ class ReportController extends Controller
         
         if($user->user_type==1){
             
-            return redirect()->back();
+            return redirect()->back()->with('error','you not access');
         }
         $provinces= ProvinceCity::where('parent', 0)->get();
         return view('admin.report.user.index',compact('provinces'));
@@ -54,7 +54,7 @@ class ReportController extends Controller
         }
         if($request->typeOfReport==2){
 
-            return (new UsersExport)-> forProvince($request->province)->forSmallProvince($request->small_province)->forSexuality($request->sexuality)->download('invoices.xlsx');
+            return (new UsersExport)-> forProvince($request->province)->forSmallProvince($request->small_province)->forSexuality($request->sexuality)->download('users.xlsx');
            
            
         }

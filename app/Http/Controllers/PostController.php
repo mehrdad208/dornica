@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\PostCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+
 
 class PostController extends Controller
 {
@@ -40,21 +42,20 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $inputs=$request->all();
-        $inputs['author_id']=3;
+        $inputs['author_id']=Session::get('admin_id');
         if ($file = $request->file('image')) {
 
             if ($file->getSize() <= 409600) {
-                $result = $this->uploadImages($file, 'posts/' . 3);
+                $result = $this->uploadImages($file, 'posts/' .Session::get('admin_id'));
                 $inputs['image'] = $result;
                 $post=Post::create($inputs);
 
-                return redirect()->route('admin.post.index');
+                return redirect()->route('admin.post.index')->with('sucess','post created');
             } else {
-                return redirect()->route('admin.post.create');
+                return redirect()->route('admin.post.create')->with('error','image size not grather 200 kb');
             }
         }
-        $post=Post::create($inputs);
-        return redirect()->route('admin.post.index');
+     
     }
 
     public function uploadImages($file, $path)
@@ -101,7 +102,7 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $post->update($request->all());
-        return redirect()->route('admin.post.index');
+        return redirect()->route('admin.post.index')->with('success','post updated');
     }
 
     /**
@@ -113,7 +114,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        return redirect()->route('admin.post.index');
+        return redirect()->route('admin.post.index')->with('success','post deleted');
     }
 
    

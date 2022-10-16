@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use App\Models\ProvinceCity;
 use Morilog\Jalali\Jalalian;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Route;
 
 class UserController extends Controller
 {
@@ -42,7 +43,7 @@ class UserController extends Controller
 
  public function search(Request $request){
     $provinces=ProvinceCity::where('parent',0)->get();
-    $users=User::where('province',$request->province)->where('email','like','%'.$request->email.'%')->where('province','like','%'.$request->province.'%')->get();
+    $users=User::where('province','like','%'.$request->province.'%')->where('email','like','%'.$request->email.'%')->where('mobile','like','%'.$request->mobile.'%')->get();
     return view('admin.user.show',compact('users','provinces'));
 }
 
@@ -66,7 +67,7 @@ class UserController extends Controller
     public function store(RegisterRequest $request)
     {
         if ($this->checkAge($request->birthday_date) <= 10) {
-            return redirect()->route('user.create');
+            return redirect()->route('user.create')->with('error','your age must grather 10 years old!!!');
         }
         if ($this->custom_check_national_code($request->national_code)) {
 
@@ -80,16 +81,24 @@ class UserController extends Controller
                     $user->image = $result;
                     $user->save();
                 } else {
-                    return redirect()->route('user.create');
+                    return redirect()->route('user.create')->with('error','image size not grather 200 kb');
                 }
             }
             $notification = resolve(Notification::class);
             SendEmail::dispatch($user, new UserCreated($user));
+            $route = Route::current();
+            if($route->getName() === 'admin.user.store'){
+                return redirect()->back()->with('success','user created');
 
-            return redirect()->route('user.verification.show',$user->id);
+
+
+            }
+
+
+            return redirect()->route('user.verification.show',$user->id)->with('success','email send for you');
         } else {
 
-            return redirect()->route('user.create');
+            return redirect()->route('user.create')->with('error','national code is incorrect');
         }
     }
 
@@ -142,7 +151,7 @@ class UserController extends Controller
     public function update(RegisterRequest $request, User $user)
     {
         if ($this->checkAge($request->birthday_date) <= 10) {
-            return redirect()->back();
+            return redirect()->back()->with('error','your age must grather 10 years old!!!');;
         }
         if ($this->custom_check_national_code($request->national_code)) {
 
@@ -157,15 +166,15 @@ class UserController extends Controller
                     $user->image = $result;
                     $user->save();
                 } else {
-                    return redirect()->route('user.edit',$user->id);
+                    return redirect()->route('user.edit',$user->id)->with('error','image size not grather 200 kb');
                 }
             }
 
 
-            return redirect()->route('user.index', $user->id);
+            return redirect()->route('user.index', $user->id)->with('success','user update');
         } else {
 
-            return redirect()->route('user.index');
+            return redirect()->route('user.index')->with('error','national code is incorrect');
         }
     }
     /**
@@ -207,7 +216,7 @@ class UserController extends Controller
             ]);
             return redirect()->route('user.index', $user->id);
         } else {
-            return redirect()->back();
+            return redirect()->back()->with('error','code incorrect!!!');
         }
     }
     public function showEmailVerification(){
@@ -222,10 +231,10 @@ class UserController extends Controller
            
             $notification = resolve(Notification::class);
             SendEmail::dispatch($user, new UserCreated($user));
-            return redirect()->route('user.email.code.show',$user->id);
+            return redirect()->route('user.email.code.show',$user->id)->with('success','code send');
 
         }else{
-            return redirect()->route('user.login.show');
+            return redirect()->back()->with('error','email incorrect!!!');
         }
     }
 
@@ -238,6 +247,7 @@ class UserController extends Controller
 
     public function uploadImages($file, $path)
     {
+        
         if ($file) {
 
             $filename = $file->getClientOriginalName();
@@ -250,8 +260,11 @@ class UserController extends Controller
     public function login(Request $request)
     {
         $user = User::where('user_name', $request->user_name)->first();
+        if (!$user) {
+            return redirect()->back()->with('error','user name incorrect!!!');
+        }
         if($user->email_verified_at==null){
-            return redirect()->back();
+            return redirect()->back()->with('error','do not email verification!!!');
         }
         if ($user) {
             if (password_verify($request->password, $user->password)) {
@@ -264,7 +277,7 @@ class UserController extends Controller
                     return redirect()->route('admin.index');
                 }
             } else {
-                return redirect()->route('user.login.show');
+                return redirect()->route('user.login.show')->with('error','password incorrect!!!');
             }
         } else {
             return redirect()->route('user.login.show');
@@ -290,9 +303,7 @@ class UserController extends Controller
 
     public function logout()
     {
-        Session::forget('user_id');
-        Session::forget('first_name');
-
+        Session::forget('admin_id');
         return redirect()->route('user.login.show');
     }
 }

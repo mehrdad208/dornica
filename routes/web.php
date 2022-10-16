@@ -34,8 +34,8 @@ Route::prefix('user')->group(function () {
     Route::get('/email/verification/code/show/{user}', [UserController::class, 'showCodeVerification'])->name('user.email.code.show');
     Route::get('/giveSmallProvice/{id}', [UserController::class, 'giveSmallProvice'])->name('user.giveSmallProvice');
 });
-//->middleware('validUser')
-Route::prefix('user')->group(function () {
+
+Route::prefix('user')->middleware(['validUser'])->group(function () {
 
 
     Route::get('index/{user}', [UserController::class, 'index'])->name('user.index');
@@ -45,8 +45,8 @@ Route::prefix('user')->group(function () {
 
 });
 
-//->middleware('validAdmin')
-Route::prefix('admin')->group(function () {
+
+Route::prefix('admin')->middleware('validAdmin')->group(function () {
 
   
         Route::get('/index', [AdminController::class, 'index'])->name('admin.index');
@@ -86,8 +86,8 @@ Route::prefix('admin')->group(function () {
     //user
     Route::prefix('user')->group(function () {
         Route::get('/index', [UserController::class, 'all'])->name('admin.user.index');
-        Route::get('/create', [UserController::class, 'create'])->name('admin.user.create');
-        Route::post('/store', [UserController::class, 'store'])->name('admin.user.store');
+        Route::get('/create', [AdminController::class, 'createUser'])->name('admin.user.create');
+        Route::post('/store', [AdminController::class, 'storeUser'])->name('admin.user.store');
         Route::get('/edit/{user}', [AdminController::class, 'editUser'])->name('admin.user.edit');
         Route::put('/update/{user}', [AdminController::class, 'updateUser'])->name('admin.user.update');
         Route::get('/edit/password/{user}', [AdminController::class, 'editPassword'])->name('admin.user.password.edit');

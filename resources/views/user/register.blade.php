@@ -29,7 +29,11 @@
                       ثبت نام 
                     </h5>
                 </section>
-    
+            @if(session('error'))
+              <div class="alert alert-danger flex-right" role="alert">
+             {{session('error')}}
+             </div>
+             @endif
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <a href="{{route('user.login.show')}}" class="btn btn-info btn-sm">بازگشت</a>
                 </section>
@@ -121,10 +125,10 @@
                             <section class="col-12 col-md-3">
                                 <div class="form-group">
                                     <label for="">جنسیت</label>
-                                    <select name="sexuality" id="sexuality" class="form-control form-control-sm">
-                                        <option value="0">مرد</option>
+                                    <select name="sexuality" class="form-control form-control-sm">
+                                        <option value="0" id="sexuality1">مرد</option>
                                       
-                                        <option value="1" >زن</option>
+                                        <option value="1" id="sexuality2" >زن</option>
     
                                     </select>
                                 </div>
@@ -137,7 +141,7 @@
                             @enderror
                             </section>
 
-                            <section class="col-12 col-md-3">
+                            <section class="col-12 col-md-3" id="soldiering_status">
                                 <div class="form-group">
                                     <label for="">وضعیت نظام وظیفه</label>
                                     <select name="soldiering_status" id="" class="form-control form-control-sm">
@@ -147,7 +151,7 @@
     
                                     </select>
                                 </div>
-                                @error('sexuality')
+                                @error('soldiering_status')
                                 <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
                                     <strong>
                                         {{ $message }}
@@ -355,6 +359,18 @@
                     });
                 }
                 
+                $(document).ready(function(){
+                $("#sexuality1").click(function(){
+               $("#soldiering_status").show();
+                 });
+                });
+
+                $(document).ready(function(){
+                $("#sexuality2").click(function(){
+               $("#soldiering_status").hide();
+                 });
+                });
+
     </script>
 
     

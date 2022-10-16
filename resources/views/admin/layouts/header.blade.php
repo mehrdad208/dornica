@@ -8,12 +8,12 @@ session_start();
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
   <link rel="stylesheet" href="{{asset('admin-assets/css/admin.css')}}">
   <title>پنل مدیریت</title>
 </head>
-
-
 <body>
+
   <header role="banner">
     <h1>پنل مدیریت</h1>
     <ul class="utilities">
@@ -23,6 +23,16 @@ session_start();
       <li class="logout warn"><a href="{{route('admin.logout')}}">خروج از برنامه</a></li>
     </ul>
   </header>
+  @if(session('success'))
+  <div class="alert alert-success flex-right" role="alert">
+  {{session('success')}}
+  </div>
+  @endif
+  @if(session('error'))
+  <div class="alert alert-danger flex-right" role="alert">
+  {{session('error')}}
+  </div>
+   @endif
 
   <nav role='navigation'>
     <ul class="main">

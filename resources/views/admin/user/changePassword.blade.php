@@ -33,7 +33,16 @@
                 <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                     <a href="{{route('admin.user.index',$user->id)}}" class="btn btn-info btn-sm">بازگشت</a>
                 </section>
-             
+                @if(session('success'))
+                <div class="alert alert-success flex-right" role="alert">
+                 {{session('success')}}
+                </div>
+                @endif
+                @if(session('error'))
+                <div class="alert alert-danger flex-right" role="alert">
+                 {{session('error')}}
+                </div>
+                @endif
     
                 <section>
                     <form action="{{route('admin.user.password.update',$user->id)}}" method="POST" enctype="multipart/form-data" id="form">

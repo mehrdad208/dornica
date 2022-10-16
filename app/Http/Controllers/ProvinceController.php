@@ -44,7 +44,7 @@ class ProvinceController extends Controller
     public function store(Request $request)
     {
         ProvinceCity::create($request->all());
-        return redirect()->route('admin.province.index');
+        return redirect()->route('admin.province.index')->with('success','new province store');
     }
 
     /**
@@ -86,7 +86,7 @@ class ProvinceController extends Controller
         $province->update([
             'title' => $request->title
         ]);
-        return redirect()->route('admin.province.index');
+        return redirect()->route('admin.province.index')->with('success','province updated');
     }
 
     /**
@@ -100,7 +100,7 @@ class ProvinceController extends Controller
         $province=ProvinceCity::where('id',$id)->first();
         $province->delete();
 
-        return redirect()->route('admin.province.index');
+        return redirect()->route('admin.province.index')->with('success','province deleted');
     }
 
     public function barCharts($id){
