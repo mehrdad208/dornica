@@ -8,8 +8,7 @@ use Illuminate\Http\Request;
 use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Session;
-
-
+use PDF;
 
 
 class ReportController extends Controller
@@ -47,9 +46,10 @@ class ReportController extends Controller
         
 
         if($request->typeOfReport==1){
-            // $pdf = Pdf::loadView('admin.report.users-pdf',['results'=>$results]);
-            // return $pdf->download('users-pdf.pdf');
-            return view('admin.report.user.show',compact('results'));
+            $results=User::where('province',$request->province)->where('small_province',$request->small_province)->where('sexuality',$request->sexuality)->get()->toArray();
+
+            $pdf = PDF::loadView('admin.report.user.pdf',compact('results'));
+            return $pdf->stream('users.pdf');;
 
         }
         if($request->typeOfReport==2){
