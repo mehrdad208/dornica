@@ -47,7 +47,7 @@ class User extends Authenticatable
 
 
     public function province(){
-        return $this->belongsTo(ProvinceCity::class,'province');
+        return $this->hasOne(ProvinceCity::class);
     }
 
    

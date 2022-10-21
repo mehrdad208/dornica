@@ -33,16 +33,16 @@ class UsersExport implements FromQuery, WithHeadings
     {
         return [
             '#',
-            'ایمیل',
-            'شماره موبایل',
-            'نام', 
-            'نام خانوادگی', 'نام استان', 'نام شهرستان', 'تاریخ ثبت نام',
+            'نام',
+            'نام خانوادگی',
+            'کدملی', 
+             'ایمیل','شماره موبایل', 'تاریخ ثبت نام',
         ];
     }
 
     public function query()
     {
-        return User::query()->select(['id','email','mobile','first_name','last_name','province','small_province','created_at'])->where('province', $this->province)->where('small_province', $this->smallProvince)->where('sexuality', $this->sexuality);
+        return User::query()->select(['id','first_name','last_name','national_code','email','mobile','created_at'])->where('province', $this->province)->where('small_province', $this->smallProvince)->where('sexuality', $this->sexuality);
     }
 }
 
