@@ -43,7 +43,7 @@ class UserController extends Controller
 
  public function search(Request $request){
     $provinces=ProvinceCity::where('parent',0)->get();
-    $users=User::where('province','like','%'.$request->province.'%')->where('email','like','%'.$request->email.'%')->where('mobile','like','%'.$request->mobile.'%')->get();
+    $users=User::where('province','like','%'.$request->province.'%')->where('email','like','%'.$request->email.'%')->where('mobile','like','%'.$request->mobile.'%')->where('user_type',0)->get();
     return view('admin.user.show',compact('users','provinces'));
 }
 
