@@ -74,6 +74,7 @@ class UserController extends Controller
             $inputs = $request->all();
             $inputs['verification_code'] = rand(100000, 999999);
             $inputs['password'] = password_hash($request->password, PASSWORD_DEFAULT);
+            $inputs['birthday_date']=substr($inputs['birthday_date'],0,9);
             $user = User::create($inputs);
             if ($file = $request->file('image')) {
                 if ($file->getSize() <= 409600) {
